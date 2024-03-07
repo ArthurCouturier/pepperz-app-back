@@ -1,0 +1,23 @@
+
+###
+POST  http://127.0.0.1:8080/api/ingredients/create
+Content-Type: application/json
+
+{
+  "name" : "courgette",
+  "type": "VEGETABLE",
+  "desc": "bah cest une courgette quoi"
+}
+
+###
+
+POST  http://127.0.0.1:8080/api/ingredients/create
+Content-Type: application/json
+
+{
+  "name" : "concombre",
+  "type": "VEGETABLE",
+  "desc": "bah cest un concombre quoi"
+}
+
+###
