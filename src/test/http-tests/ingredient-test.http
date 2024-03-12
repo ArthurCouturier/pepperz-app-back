@@ -21,3 +21,29 @@ Content-Type: application/json
 }
 
 ###
+
+POST  http://127.0.0.1:8080/api/ingredients/create
+Content-Type: application/json
+
+{
+  "name" : "poivron",
+  "type": "VEGETABLE",
+  "desc": "bah cest un poivron quoi"
+}
+
+###
+
+GET  http://127.0.0.1:8080/api/ingredients/getAll
+Content-Type: application/json
+
+###
+
+DELETE  http://127.0.0.1:8080/api/ingredients/deleteByUUid/6e4bf5b5-30da-4ef9-861a-d7d062649a57
+Content-Type: application/json
+
+###
+
+DELETE  http://127.0.0.1:8080/api/ingredients/deleteByName/courgette
+Content-Type: application/json
+
+###

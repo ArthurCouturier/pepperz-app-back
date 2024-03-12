@@ -1,7 +1,7 @@
 package cout.dev.projetcuisine.services;
 
 import cout.dev.projetcuisine.dtos.IngredientDTO;
-import cout.dev.projetcuisine.models.ingredients.Ingredient;
+import cout.dev.projetcuisine.models.Ingredient;
 import cout.dev.projetcuisine.repositories.IngredientRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -41,7 +41,15 @@ public class IngredientService {
 
     @DeleteMapping("/deleteByUUid/{uuid}")
     public String deleteByUuid(@PathVariable String uuid) {
-        ingredientRepository.deleteByUuid(UUID.fromString(uuid));
+        Ingredient ingredient = ingredientRepository.findByUuid(UUID.fromString(uuid));
+        ingredientRepository.delete(ingredient);
+        return "Ingredient deleted successfully";
+    }
+
+    @DeleteMapping("/deleteByName/{uuid}")
+    public String deleteByName(@PathVariable String name) {
+        Ingredient ingredient = ingredientRepository.findByName(name);
+        ingredientRepository.delete(ingredient);
         return "Ingredient deleted successfully";
     }
 }
