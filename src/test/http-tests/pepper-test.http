@@ -1,0 +1,53 @@
+
+###
+POST  http://127.0.0.1:8080/api/peppers/create
+Content-Type: application/json
+
+{
+  "name" : "Kampot IGP noir du Cambodge",
+  "type": "BLACK",
+  "origin": "Kampot",
+  "desc": "Le poivre de Kampot IGP a su faire sa place dans le monde de la gastronomie",
+  "kgPrice": 58
+}
+
+###
+
+POST  http://127.0.0.1:8080/api/peppers/create
+Content-Type: application/json
+
+{
+  "name" : "Poivre Cubèbe de Jakarta",
+  "type": "BLACK",
+  "origin": "Jakarta",
+  "desc": "Peu piquant, sa saveur est camphrée, mentholée et citronnée",
+  "kgPrice": 59
+}
+
+###
+
+POST  http://127.0.0.1:8080/api/peppers/create
+Content-Type: application/json
+
+{
+  "name" : "poivron",
+  "type": "VEGETABLE",
+  "desc": "bah cest un poivron quoi"
+}
+
+###
+
+GET  http://127.0.0.1:8080/api/peppers/getAll
+Content-Type: application/json
+
+###
+
+DELETE  http://127.0.0.1:8080/api/peppers/deleteByUUid/cd9308ae-b2e8-4d85-b74c-30d51d7b2d1d
+Content-Type: application/json
+
+###
+
+DELETE  http://127.0.0.1:8080/api/peppers/deleteByName/courgette
+Content-Type: application/json
+
+###

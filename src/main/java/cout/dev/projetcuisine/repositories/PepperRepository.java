@@ -1,18 +1,18 @@
 package cout.dev.projetcuisine.repositories;
 
-import cout.dev.projetcuisine.models.Ingredient;
+import cout.dev.projetcuisine.models.Pepper;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.UUID;
 
 @Repository
-public interface IngredientRepository extends JpaRepository<Ingredient, String> {
+public interface PepperRepository extends JpaRepository<Pepper, String> {
     long deleteByUuid(UUID uuid);
 
     long deleteByName(String name);
 
-    Ingredient findByUuid(UUID uuid);
+    Pepper findByUuid(UUID uuid);
 
-    Ingredient findByName(String name);
+    Pepper findByName(String name);
 }
