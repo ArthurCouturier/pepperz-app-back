@@ -15,6 +15,8 @@ public class CorsConfig {
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/api/**")
                         .allowedOrigins("http://localhost:5173")
+                        .allowedOrigins("https://pepperz-back.vercel.app")
+                        .allowedOrigins("https://www.pepperz.app")
                         .allowedMethods("GET", "POST", "PUT", "DELETE")
                         .allowCredentials(true);
             }

@@ -34,3 +34,4 @@ build/
 .vscode/
 datasource.db.mv.db
 /datasource.db.trace.db
+/.env
