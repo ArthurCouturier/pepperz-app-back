@@ -5,5 +5,5 @@ public enum PepperSpecifications {
     STRONG,
     SWEET,
     SPICY,
-    MILD
+    MILD;
 }

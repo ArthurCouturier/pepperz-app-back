@@ -26,13 +26,19 @@ Content-Type: application/json
 
 ###
 
-POST  http://127.0.0.1:8080/api/peppers/create
+PUT  http://127.0.0.1:8080/api/peppers/update/81f26ce1-4e99-442e-b8ed-8f62571077d9
 Content-Type: application/json
 
 {
-  "name" : "poivron",
-  "type": "VEGETABLE",
-  "desc": "bah cest un poivron quoi"
+  "name" : "Poivre Cubèbe de Jakarta",
+  "type": "BLACK",
+  "origin": "Jakarta",
+  "desc": "Peu piquant, sa saveur est camphrée, mentholée et citronnée",
+  "kgPrice": 59,
+  "specifications": [
+    "FRUITED",
+    "STRONG"
+  ]
 }
 
 ###

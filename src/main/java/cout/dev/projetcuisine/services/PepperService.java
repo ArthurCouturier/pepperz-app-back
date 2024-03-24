@@ -8,10 +8,12 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
@@ -39,6 +41,11 @@ public class PepperService {
         return pepperRepository.findAll();
     }
 
+    @GetMapping("/getByUuid/{uuid}")
+    public Pepper getByUuid(@PathVariable String uuid) {
+        return pepperRepository.findByUuid(UUID.fromString(uuid));
+    }
+
     @DeleteMapping("/deleteByUUid/{uuid}")
     public String deleteByUuid(@PathVariable String uuid) {
         Pepper pepper = pepperRepository.findByUuid(UUID.fromString(uuid));
@@ -51,5 +58,13 @@ public class PepperService {
         Pepper pepper = pepperRepository.findByName(name);
         pepperRepository.delete(pepper);
         return "Pepper deleted successfully";
+    }
+
+    @PutMapping("/update/{uuid}")
+    public Pepper update(@RequestBody PepperDTO pepperDTO, @PathVariable String uuid) {
+        Pepper pepper = pepperRepository.findByUuid(UUID.fromString(uuid));
+        Pepper updatedPepper = Pepper.fromDTO(pepperDTO);
+        updatedPepper.setUuid(pepper.getUuid());
+        return pepperRepository.save(updatedPepper);
     }
 }
