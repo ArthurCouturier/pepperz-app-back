@@ -26,7 +26,7 @@ Content-Type: application/json
 
 ###
 
-PUT  http://127.0.0.1:8080/api/peppers/update/81f26ce1-4e99-442e-b8ed-8f62571077d9
+PUT  http://127.0.0.1:8080/api/peppers/update/eec4bf80-d708-4c86-a121-b9f11d6582e5
 Content-Type: application/json
 
 {
