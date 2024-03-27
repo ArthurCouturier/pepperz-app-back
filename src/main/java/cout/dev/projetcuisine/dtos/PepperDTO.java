@@ -1,7 +1,6 @@
 package cout.dev.projetcuisine.dtos;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import cout.dev.projetcuisine.utils.PepperSpecifications;
 import cout.dev.projetcuisine.utils.PepperType;
 import jakarta.persistence.Column;
 import lombok.AllArgsConstructor;
@@ -27,5 +26,5 @@ public class PepperDTO {
     private int kgPrice;
 
     @JsonProperty(namespace = "specifications")
-    private PepperSpecifications[] specifications;
+    private String specifications;
 }

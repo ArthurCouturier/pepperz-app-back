@@ -3,6 +3,8 @@ package cout.dev.projetcuisine.services;
 import cout.dev.projetcuisine.dtos.PepperDTO;
 import cout.dev.projetcuisine.models.Pepper;
 import cout.dev.projetcuisine.repositories.PepperRepository;
+import cout.dev.projetcuisine.utils.PepperSpecifications;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Arrays;
 import java.util.List;
@@ -63,6 +66,15 @@ public class PepperService {
     @PutMapping("/update/{uuid}")
     public Pepper update(@RequestBody PepperDTO pepperDTO, @PathVariable String uuid) {
         Pepper pepper = pepperRepository.findByUuid(UUID.fromString(uuid));
+
+        if (!pepperDTO.getSpecifications().isEmpty()) {
+            for (String spec : pepperDTO.getSpecifications().split(";")) {
+                if (!PepperSpecifications.isValid(spec)) {
+                    throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid specification: " + spec);
+                }
+            }
+        }
+
         Pepper updatedPepper = Pepper.fromDTO(pepperDTO);
         updatedPepper.setUuid(pepper.getUuid());
         return pepperRepository.save(updatedPepper);

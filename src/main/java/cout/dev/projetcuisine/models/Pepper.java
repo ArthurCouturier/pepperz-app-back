@@ -1,10 +1,8 @@
 package cout.dev.projetcuisine.models;
 
 import cout.dev.projetcuisine.dtos.PepperDTO;
-import cout.dev.projetcuisine.utils.PepperSpecifications;
 import cout.dev.projetcuisine.utils.PepperType;
 import jakarta.persistence.Column;
-import jakarta.persistence.Converter;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -12,10 +10,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.Data;
 
-import java.util.Arrays;
-import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Entity
 @Data
@@ -56,15 +51,7 @@ public class Pepper {
         String desc = pepperDTO.getDesc().substring(0, 1).toUpperCase() + pepperDTO.getDesc().substring(1);
         pepper.setDesc(desc);
         pepper.setKgPrice(pepperDTO.getKgPrice());
-        if (pepperDTO.getSpecifications() == null) {
-            pepper.setSpecifications("");
-        } else {
-            pepper.setSpecifications(
-                    Arrays.stream(pepperDTO.getSpecifications())
-                            .map(PepperSpecifications::toString)
-                            .collect(Collectors.joining(";"))
-            );
-        }
+        pepper.setSpecifications(pepperDTO.getSpecifications());
         return pepper;
     }
 
@@ -75,6 +62,7 @@ public class Pepper {
                 this.origin,
                 this.desc,
                 this.kgPrice,
-                Arrays.stream(specifications.split(";")).map(PepperSpecifications::valueOf).toArray(PepperSpecifications[]::new));
+                this.specifications
+        );
     }
 }
