@@ -49,6 +49,14 @@ public class PepperService {
         return pepperRepository.findByUuid(UUID.fromString(uuid));
     }
 
+    @GetMapping("/getBySpecification/{spec}")
+    public List<Pepper> getBySpecification(@PathVariable String spec) {
+        if (!PepperSpecifications.isValid(spec)) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid specification: " + spec);
+        }
+        return pepperRepository.findBySpecificationsContains(spec);
+    }
+
     @DeleteMapping("/deleteByUUid/{uuid}")
     public String deleteByUuid(@PathVariable String uuid) {
         Pepper pepper = pepperRepository.findByUuid(UUID.fromString(uuid));

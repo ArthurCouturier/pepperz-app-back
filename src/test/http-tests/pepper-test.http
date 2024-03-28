@@ -48,6 +48,11 @@ Content-Type: application/json
 
 ###
 
+GET  http://127.0.0.1:8080/api/peppers/getBySpecification/MILD
+Content-Type: application/json
+
+###
+
 DELETE  http://127.0.0.1:8080/api/peppers/deleteByUUid/cd9308ae-b2e8-4d85-b74c-30d51d7b2d1d
 Content-Type: application/json
 
