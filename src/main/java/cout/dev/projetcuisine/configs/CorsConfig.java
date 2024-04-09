@@ -18,6 +18,10 @@ public class CorsConfig {
                                 "http://localhost:5173",
                                 "https://pepperz-back.vercel.app",
                                 "https://www.pepperz.app",
+                                "https://pepperz.app",
+                                "http://pepperz-back.vercel.app",
+                                "http://www.pepperz.app",
+                                "http://pepperz.app",
                                 "http://localhost"
                         )
                         .allowedMethods("GET", "POST", "PUT", "DELETE")
