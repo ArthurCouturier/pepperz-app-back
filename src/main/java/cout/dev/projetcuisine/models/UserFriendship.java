@@ -2,6 +2,7 @@ package cout.dev.projetcuisine.models;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -14,24 +15,21 @@ import lombok.Setter;
 import java.util.UUID;
 
 @Entity
-@Table(name = "user_pepper_ratings")
 @Getter
 @Setter
-public class UserPepperRating {
+@Table(name = "user_friendships")
+public class UserFriendship {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
+    @Column(name = "uuid")
     private UUID uuid;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "uuid", nullable = false)
     private User user;
 
-    @ManyToOne
-    @JoinColumn(name = "pepper_id")
-    private Pepper pepper;
-
-
-    @Column(name = "rating")
-    private Integer rating;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "uuid", nullable = false)
+    private User friend;
 }

@@ -5,6 +5,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
@@ -31,12 +33,18 @@ public class User {
     @Column(name = "email", unique = true)
     private String email;
 
-    @Column(name = "hashedPassword", unique = true)
+    @Column(name = "hashedPassword")
     private String hashedPassword;
 
+    @Column(name = "ratings")
     @OneToMany
-    private List<UserPepperRating> peppers;
+    private List<UserPepperRating> ratings;
 
     @ManyToMany
+    @JoinTable(
+            name = "user_friendships",
+            joinColumns = @JoinColumn(name = "uuid"),
+            inverseJoinColumns = @JoinColumn(name = "uuid")
+    )
     private List<User> friends;
 }
