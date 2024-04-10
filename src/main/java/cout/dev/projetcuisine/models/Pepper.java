@@ -1,7 +1,7 @@
 package cout.dev.projetcuisine.models;
 
 import cout.dev.projetcuisine.dtos.PepperDTO;
-import cout.dev.projetcuisine.utils.PepperType;
+import cout.dev.projetcuisine.utils.PepperTypes;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -30,7 +30,7 @@ public class Pepper {
     private String name;
 
     @Column(name = "type")
-    private PepperType type;
+    private PepperTypes type;
 
     @Column(name = "origin")
     private String origin;

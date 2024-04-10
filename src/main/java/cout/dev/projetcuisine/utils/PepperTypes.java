@@ -1,6 +1,6 @@
 package cout.dev.projetcuisine.utils;
 
-public enum PepperType {
+public enum PepperTypes {
     BLACK,
     WHITE,
     RED,

@@ -1,5 +1,6 @@
 package cout.dev.projetcuisine.models;
 
+import cout.dev.projetcuisine.utils.UserRoles;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -47,4 +48,7 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "uuid")
     )
     private List<User> friends;
+
+    @Column(name = "role")
+    private UserRoles role;
 }

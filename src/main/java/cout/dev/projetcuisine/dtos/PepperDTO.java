@@ -1,7 +1,7 @@
 package cout.dev.projetcuisine.dtos;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import cout.dev.projetcuisine.utils.PepperType;
+import cout.dev.projetcuisine.utils.PepperTypes;
 import jakarta.persistence.Column;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -14,7 +14,7 @@ public class PepperDTO {
     private String name;
 
     @JsonProperty(namespace = "type", required = true)
-    private PepperType type;
+    private PepperTypes type;
 
     @Column(name = "origin")
     private String origin;
