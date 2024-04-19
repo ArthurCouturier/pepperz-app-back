@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Repository
-public interface PepperRepository extends JpaRepository<Pepper, String> {
+public interface PepperRepository extends JpaRepository<Pepper, UUID> {
     long deleteByUuid(UUID uuid);
 
     long deleteByName(String name);

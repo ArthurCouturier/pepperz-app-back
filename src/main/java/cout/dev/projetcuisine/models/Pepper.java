@@ -7,12 +7,10 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -43,10 +41,6 @@ public class Pepper {
 
     @Column(name = "specifications")
     private String specifications;
-
-    @Column(name = "ratings")
-    @OneToMany
-    private List<UserPepperRating> ratings;
 
 
     public static Pepper fromDTO(PepperDTO pepperDTO) {
