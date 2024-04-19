@@ -41,14 +41,6 @@ public class User {
     @OneToMany
     private List<UserPepperRating> ratings;
 
-    @ManyToMany
-    @JoinTable(
-            name = "user_friendships",
-            joinColumns = @JoinColumn(name = "uuid"),
-            inverseJoinColumns = @JoinColumn(name = "uuid")
-    )
-    private List<User> friends;
-
     @Column(name = "role")
     private UserRoles role;
 }

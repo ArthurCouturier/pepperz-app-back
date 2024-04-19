@@ -26,10 +26,8 @@ public class UserFriendship {
     private UUID uuid;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "uuid", nullable = false)
     private User user;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "uuid", nullable = false)
     private User friend;
 }
