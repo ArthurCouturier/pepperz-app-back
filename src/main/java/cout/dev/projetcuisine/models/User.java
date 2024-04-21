@@ -32,11 +32,14 @@ public class User {
     @Column(name = "name")
     private String name;
 
-    @Column(name = "familyName")
-    private String familyName;
+    @Column(name = "token")
+    private String googleToken;
 
-    @Column(name = "locale")
-    private String locale;
+    @Column(name = "appToken")
+    private String appToken;
+
+    @Column(name = "registerdOn")
+    private String registerdOn;
 
     @Column(name = "role")
     private UserRoles role;
