@@ -29,3 +29,13 @@ Content-Type: application/json
 Authorization: {{$dotenv APP_ADMIN_SECRET}}
 
 ###
+
+POST  http://127.0.0.1:8080/api/users/auth/pass-user-admi-by-email
+Content-Type: application/json
+Authorization: {{$dotenv APP_ADMIN_SECRET}}
+
+{
+    "email": ""
+}
+
+###

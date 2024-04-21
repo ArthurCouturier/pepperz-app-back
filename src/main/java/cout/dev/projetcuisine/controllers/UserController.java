@@ -8,12 +8,14 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fasterxml.jackson.databind.JsonNode;
+
 import cout.dev.projetcuisine.models.GoogleUser;
 import cout.dev.projetcuisine.models.User;
 import cout.dev.projetcuisine.services.GoogleTokenVerifierService;
 import cout.dev.projetcuisine.services.UserService;
-
-
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 @RestController
 @RequestMapping("/api/users")
@@ -21,7 +23,7 @@ public class UserController {
 
     @Value("${app.admin.secret}")
     private String appAdminSecret;
-    
+
     private final UserService userService;
     private GoogleTokenVerifierService tokenVerifierService;
 
@@ -55,7 +57,7 @@ public class UserController {
     @GetMapping("/getAll")
     public List<User> getAllUsers(@RequestHeader("Authorization") String authorizationHeader) {
         if (!authorizationHeader.equals(appAdminSecret)) {
-            return null;
+            throw new RuntimeException("Unauthorized");
         }
         return userService.getAllUsers();
     }
@@ -63,9 +65,19 @@ public class UserController {
     @GetMapping("/google/getAll")
     public List<GoogleUser> getAllGoogleUsers(@RequestHeader("Authorization") String authorizationHeader) {
         if (!authorizationHeader.equals(appAdminSecret)) {
-            return null;
+            throw new RuntimeException("Unauthorized");
         }
         return userService.getAllGoogleUsers();
     }
-    
+
+    @PostMapping("/auth/pass-user-admi-by-email")
+    public User postMethodName(
+            @RequestHeader("Authorization") String authorizationHeader,
+            @RequestBody JsonNode emailNode) {
+        if (!authorizationHeader.equals(appAdminSecret)) {
+            throw new RuntimeException("Unauthorized");
+        }
+        return userService.passUserAdminByEmail(emailNode.get("email").asText());
+    }
+
 }

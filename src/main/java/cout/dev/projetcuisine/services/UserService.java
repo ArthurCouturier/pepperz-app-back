@@ -66,4 +66,10 @@ public class UserService {
     public List<GoogleUser> getAllGoogleUsers() {
         return googleUserRepository.findAll();
     }
+
+    public User passUserAdminByEmail(String email) {
+        User user = userRepository.findByEmail(email);
+        user.setRole(UserRoles.ADMIN);
+        return userRepository.save(user);
+    }
 }
