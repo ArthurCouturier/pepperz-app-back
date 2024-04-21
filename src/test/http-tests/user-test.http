@@ -17,12 +17,15 @@ Content-Type: application/json
 
 ###
 
+
 GET  http://127.0.0.1:8080/api/users/getAll
 Content-Type: application/json
+Authorization: {{$dotenv APP_ADMIN_SECRET}}
 
 ###
 
 GET  http://127.0.0.1:8080/api/users/google/getAll
 Content-Type: application/json
+Authorization: {{$dotenv APP_ADMIN_SECRET}}
 
 ###
