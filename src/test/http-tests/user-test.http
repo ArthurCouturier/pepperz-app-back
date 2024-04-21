@@ -1,53 +1,23 @@
 ###
 
-POST  http://127.0.0.1:8080/api/users/create
+GET http://127.0.0.1:8080/api/users/auth/google
 Content-Type: application/json
-
-{
-  "name" : "user1",
-  "email": "user1@gmail.com",
-  "password": "password1"
-}
+Authorization: Bearer ya29.a0Ad52N38N7N9d2O-4CyAmlTNQc-LAtmitDVvYXidEZf_KhreQF1kFwhpeiX_ygt3eEzpTU4UEpUTYNTuAkFQRjvdowE3D8qk7O78mubYxzOLNb3x_Laz2sovXmwGUNbIqxdJmlIFCXOiv-fa2RViNR1ql3twRdtjFnj4aCgYKAT0SARASFQHGX2MibLFAAQO2o9ZlIEw256ZovA0170
 
 ###
 
-POST  http://127.0.0.1:8080/api/users/create
+GET http://127.0.0.1:8080/api/users/auth/google
 Content-Type: application/json
-
-{
-  "name" : "user2",
-  "email": "user2@gmail.com",
-  "password": "password2"
-}
+Authorization: ya29.a0Ad52N383H8RHg_PB_nm8tcGkMupvCQFjGw9zNUDvSsVR-X43bpNhqSsxe8IOXAuLcJ1uVm6YcRK6Nv0iq2op3JcgxZRSi2xadO7ZYwy092qMApYQdKBT4KUtLU31mmBJrarcbRW4JylWaZqmBPD9-hITS1CKSKR4n54aCgYKAUcSARASFQHGX2MinNUI35xOleNKIyOcA-woTg0170
 
 ###
 
-POST  http://127.0.0.1:8080/api/users/login
-Content-Type: application/json
-
-{
-  "login" : "user1",
-    "password": "password1"
-}
-
-###
-
-POST  http://127.0.0.1:8080/api/users/login
-Content-Type: application/json
-
-{
-  "login" : "user2",
-    "password": "password2"
-}
-
-###
-
-GET  http://127.0.0.1:8080/api/users/getAll
+GET  http://127.0.0.1:8080/api/users/auth
 Content-Type: application/json
 
 ###
 
-DELETE  http://127.0.0.1:8080/api/users/deleteByName/user1
+GET  http://127.0.0.1:8080/api/peppers/getAll
 Content-Type: application/json
 
 ###
