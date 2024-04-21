@@ -1,11 +1,7 @@
 package cout.dev.projetcuisine.models;
 
-import java.util.UUID;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.Getter;
@@ -18,24 +14,27 @@ import lombok.Setter;
 public class GoogleUser {
 
     @Id
-    @Column(name = "id")
+    @Column(name = "id", unique = true)
     private String id;
 
     @Column(name = "email", unique = true)
     private String email;
 
     @Column(name = "verified_email")
-    private Boolean verified_email;
+    private Boolean verifiedEmail;
 
     @Column(name = "name")
     private String name;
 
     @Column(name = "family_name")
-    private String family_name;
+    private String familyName;
 
     @Column(name = "given_name")
-    private String given_name;
+    private String givenName;
 
     @Column(name = "picture")
     private String picture;
+
+    @Column(name = "access_token")
+    private String accessToken;
 }

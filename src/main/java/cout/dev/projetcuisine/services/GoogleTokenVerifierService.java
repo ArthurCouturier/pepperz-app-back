@@ -10,22 +10,27 @@ import java.security.GeneralSecurityException;
 
 import org.springframework.stereotype.Service;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import cout.dev.projetcuisine.models.GoogleUser;
+
 @Service
 public class GoogleTokenVerifierService {
 
     public GoogleTokenVerifierService() {
     }
 
-    public String verifyToken(String token) throws GeneralSecurityException, IOException, InterruptedException {
-        String idToken = tryVerifyToken(token);
-        if (idToken != null) {
-            return idToken;
+    public GoogleUser getGoogleUserVerifyingToken(String accessToken) throws GeneralSecurityException, IOException, InterruptedException {
+        JsonNode googleUserNode = tryVerifyToken(accessToken);
+        if (googleUserNode != null) {
+            return getGoogleUser(googleUserNode, accessToken);
         } else {
             throw new IllegalArgumentException("Invalid ID token.");
         }
     }
 
-    public String tryVerifyToken(String accessToken) throws GeneralSecurityException, IOException, InterruptedException {
+    public JsonNode tryVerifyToken(String accessToken) throws GeneralSecurityException, IOException, InterruptedException {
         if (accessToken.contains("Bearer ")) {
             accessToken = accessToken.substring("Bearer ".length());
         }
@@ -41,10 +46,24 @@ public class GoogleTokenVerifierService {
         HttpResponse<String> response = client.send(request, BodyHandlers.ofString());
 
         if (response.statusCode() == 200) {
-            String token = response.body();
+            ObjectMapper mapper = new ObjectMapper();
+            JsonNode token = mapper.readTree(response.body());
             return token;
         } else {
-            return response.body();
+            throw new IllegalArgumentException("Invalid ID token.");
         }
+    }
+
+    public GoogleUser getGoogleUser(JsonNode googleUserNode, String accessToken) {
+        GoogleUser googleUser = new GoogleUser();
+        googleUser.setId(googleUserNode.get("id").asText());
+        googleUser.setEmail(googleUserNode.get("email").asText());
+        googleUser.setVerifiedEmail(googleUserNode.get("verified_email").asBoolean());
+        googleUser.setName(googleUserNode.get("name").asText());
+        googleUser.setFamilyName(googleUserNode.get("family_name").asText());
+        googleUser.setGivenName(googleUserNode.get("given_name").asText());
+        googleUser.setPicture(googleUserNode.get("picture").asText());
+        googleUser.setAccessToken(accessToken);
+        return googleUser;
     }
 }

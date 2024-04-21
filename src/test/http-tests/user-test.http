@@ -12,12 +12,17 @@ Authorization: ya29.a0Ad52N383H8RHg_PB_nm8tcGkMupvCQFjGw9zNUDvSsVR-X43bpNhqSsxe8
 
 ###
 
-GET  http://127.0.0.1:8080/api/users/auth
+GET  http://127.0.0.1:8080/api/users/auth/getAll
 Content-Type: application/json
 
 ###
 
-GET  http://127.0.0.1:8080/api/peppers/getAll
+GET  http://127.0.0.1:8080/api/users/getAll
+Content-Type: application/json
+
+###
+
+GET  http://127.0.0.1:8080/api/users/google/getAll
 Content-Type: application/json
 
 ###

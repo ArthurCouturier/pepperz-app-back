@@ -1,12 +1,17 @@
 package cout.dev.projetcuisine.controllers;
 
+import java.util.List;
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import cout.dev.projetcuisine.models.GoogleUser;
+import cout.dev.projetcuisine.models.User;
 import cout.dev.projetcuisine.services.GoogleTokenVerifierService;
 import cout.dev.projetcuisine.services.UserService;
+
 
 
 @RestController
@@ -27,13 +32,31 @@ public class UserController {
     }
 
     @GetMapping("/auth/google")
-    public String getUser(@RequestHeader("Authorization") String authorizationHeader) throws Exception {
-        String token = authorizationHeader.substring("Bearer ".length());
+    public GoogleUser getGoogleUser(@RequestHeader("Authorization") String authorizationHeader) throws Exception {
+        String googleAccessToken = authorizationHeader.substring("Bearer ".length());
         try {
-            return tokenVerifierService.verifyToken(token);
+            GoogleUser googleUser = tokenVerifierService.getGoogleUserVerifyingToken(googleAccessToken);
+            User user = userService.getUserByEmail(googleUser.getEmail());
+            if (user == null) {
+                user = userService.createUser(googleUser);
+            } else {
+                googleUser = userService.updateGoogleToken(user, googleAccessToken);
+            }
+            return googleUser;
         } catch (Exception e) {
-            return "Access denied" + e.getMessage();
+            throw new Exception("Invalid token.");
         }
     }
+
+    @GetMapping("/getAll")
+    public List<User> getAllUsers() {
+        return userService.getAllUsers();
+    }
+
+    @GetMapping("/google/getAll")
+    public List<GoogleUser> getAllGoogleUsers() {
+        return userService.getAllGoogleUsers();
+    }
+    
     
 }
