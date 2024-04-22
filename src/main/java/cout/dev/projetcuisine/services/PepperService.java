@@ -29,6 +29,13 @@ public class PepperService {
         return pepperRepository.findAll();
     }
 
+    public List<Pepper> getAllValidated() {
+        return pepperRepository.findAll()
+                .stream()
+                .filter(Pepper::isValidatedByAdmin)
+                .toList();
+    }
+
     public Pepper getByUuid(UUID uuid) {
         return pepperRepository.findByUuid(uuid);
     }
@@ -53,6 +60,7 @@ public class PepperService {
     public Pepper update(Pepper pepper, PepperDTO pepperDTO) {
         Pepper updatedPepper = Pepper.fromDTO(pepperDTO);
         updatedPepper.setUuid(pepper.getUuid());
+        updatedPepper.setValidatedByAdmin(pepper.isValidatedByAdmin());
         return pepperRepository.save(updatedPepper);
     }
 
@@ -66,5 +74,15 @@ public class PepperService {
         Pepper pepper = pepperRepository.findByName(name);
         pepperRepository.delete(pepper);
         return "Pepper deleted successfully";
+    }
+
+    public Pepper setValidationByUuid(UUID uuid, boolean validatedByAdmin) {
+        Pepper pepper = getByUuid(uuid);
+        if (pepper == null) {
+            throw new RuntimeException("Pepper not found.");
+        }
+
+        pepper.setValidatedByAdmin(validatedByAdmin);
+        return pepperRepository.save(pepper);
     }
 }

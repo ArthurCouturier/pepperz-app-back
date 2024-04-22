@@ -3,12 +3,14 @@ package cout.dev.projetcuisine.controllers;
 import java.util.List;
 import java.util.UUID;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -19,6 +21,9 @@ import cout.dev.projetcuisine.services.PepperService;
 @RestController
 @RequestMapping("/api/peppers")
 public class PepperController {
+
+    @Value("${app.admin.secret}")
+    private String appAdminSecret;
 
     public PepperService pepperService;
 
@@ -34,8 +39,17 @@ public class PepperController {
     }
 
     @GetMapping("/getAll")
-    public List<Pepper> getAll() {
+    public List<Pepper> getAll(@RequestHeader("Authorization") String authorizationHeader) {
+        if (!authorizationHeader.equals(appAdminSecret)) {
+            throw new RuntimeException("Unauthorized");
+        }
+
         return pepperService.getAll();
+    }
+
+    @GetMapping("/getAllValidated")
+    public List<Pepper> getAllValidated() {
+        return pepperService.getAllValidated();
     }
 
     @GetMapping("/getByUuid/{uuid}")
@@ -63,5 +77,29 @@ public class PepperController {
     @DeleteMapping("/deleteByName/{uuid}")
     public String deleteByName(@PathVariable String name) {
         return pepperService.deleteByName(name);
+    }
+
+    @PutMapping("/validate-pepper/{uuid}")
+    public Pepper validatePepper(
+        @RequestHeader("Authorization") String authorizationHeader,
+        @PathVariable String uuid
+    ) {
+        if (!authorizationHeader.equals(appAdminSecret)) {
+            throw new RuntimeException("Unauthorized");
+        }
+
+        return pepperService.setValidationByUuid(UUID.fromString(uuid), true);
+    }
+
+    @PutMapping("/unvalidate-pepper/{uuid}")
+    public Pepper unvalidatePepper(
+        @RequestHeader("Authorization") String authorizationHeader,
+        @PathVariable String uuid
+    ) {
+        if (!authorizationHeader.equals(appAdminSecret)) {
+            throw new RuntimeException("Unauthorized");
+        }
+
+        return pepperService.setValidationByUuid(UUID.fromString(uuid), false);
     }
 }

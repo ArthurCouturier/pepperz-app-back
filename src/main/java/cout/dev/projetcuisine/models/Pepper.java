@@ -1,5 +1,7 @@
 package cout.dev.projetcuisine.models;
 
+import java.util.UUID;
+
 import cout.dev.projetcuisine.dtos.PepperDTO;
 import cout.dev.projetcuisine.utils.PepperTypes;
 import jakarta.persistence.Column;
@@ -10,8 +12,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
-
-import java.util.UUID;
 
 @Entity
 @Getter
@@ -42,6 +42,9 @@ public class Pepper {
     @Column(name = "specifications")
     private String specifications;
 
+    @Column(name = "validated_by_admin")
+    private boolean validatedByAdmin = false;
+
 
     public static Pepper fromDTO(PepperDTO pepperDTO) {
         Pepper pepper = new Pepper();
@@ -54,6 +57,7 @@ public class Pepper {
         pepper.setDesc(desc);
         pepper.setKgPrice(pepperDTO.getKgPrice());
         pepper.setSpecifications(pepperDTO.getSpecifications());
+        pepper.setValidatedByAdmin(false);
         return pepper;
     }
 
