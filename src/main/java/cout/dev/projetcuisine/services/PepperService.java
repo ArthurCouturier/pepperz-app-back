@@ -11,14 +11,20 @@ import cout.dev.projetcuisine.dtos.PepperDTO;
 import cout.dev.projetcuisine.models.Pepper;
 import cout.dev.projetcuisine.repositories.PepperRepository;
 import cout.dev.projetcuisine.utils.PepperSpecifications;
+import cout.dev.projetcuisine.utils.UserRoles;
 
 @Service
 public class PepperService {
 
-    private PepperRepository pepperRepository;
+    private final PepperRepository pepperRepository;
 
-    public PepperService(PepperRepository pepperRepository) {
+    private final UserService userService;
+
+    public PepperService(
+            PepperRepository pepperRepository,
+            UserService userService) {
         this.pepperRepository = pepperRepository;
+        this.userService = userService;
     }
 
     public Pepper create(Pepper pepper) {
@@ -33,6 +39,16 @@ public class PepperService {
         return pepperRepository.findAll()
                 .stream()
                 .filter(Pepper::isValidatedByAdmin)
+                .toList();
+    }
+
+    public List<Pepper> getAllUnvalidated(String email) {
+        if (!(userService.getUserByEmail(email).getRole() == UserRoles.ADMIN)) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Unauthorized");
+        }
+        return pepperRepository.findAll()
+                .stream()
+                .filter(pepper -> !pepper.isValidatedByAdmin())
                 .toList();
     }
 

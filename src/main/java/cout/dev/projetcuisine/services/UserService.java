@@ -70,6 +70,14 @@ public class UserService {
     public User passUserAdminByEmail(String email) {
         User user = userRepository.findByEmail(email);
         user.setRole(UserRoles.ADMIN);
+        GoogleUser googleUser = googleUserRepository.findByEmail(email).get();
+        googleUser.setShouldBeAdmin(true);
+        googleUserRepository.save(googleUser);
         return userRepository.save(user);
+    }
+
+    public Boolean isUserAdmin(String email) {
+        User user = userRepository.findByEmail(email);
+        return user.getRole().equals(UserRoles.ADMIN);
     }
 }

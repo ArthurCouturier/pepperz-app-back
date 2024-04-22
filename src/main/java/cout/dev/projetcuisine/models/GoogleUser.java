@@ -37,4 +37,7 @@ public class GoogleUser {
 
     @Column(name = "access_token")
     private String accessToken;
+
+    @Column(name = "should_be_admin")
+    private Boolean shouldBeAdmin = false;
 }

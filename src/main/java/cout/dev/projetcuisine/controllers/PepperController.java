@@ -1,5 +1,7 @@
 package cout.dev.projetcuisine.controllers;
 
+import java.io.IOException;
+import java.security.GeneralSecurityException;
 import java.util.List;
 import java.util.UUID;
 
@@ -14,8 +16,11 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fasterxml.jackson.databind.JsonNode;
+
 import cout.dev.projetcuisine.dtos.PepperDTO;
 import cout.dev.projetcuisine.models.Pepper;
+import cout.dev.projetcuisine.services.GoogleTokenVerifierService;
 import cout.dev.projetcuisine.services.PepperService;
 
 @RestController
@@ -25,10 +30,15 @@ public class PepperController {
     @Value("${app.admin.secret}")
     private String appAdminSecret;
 
-    public PepperService pepperService;
+    public final PepperService pepperService;
 
-    public PepperController(PepperService pepperService) {
+    public final GoogleTokenVerifierService googleTokenVerifierService;
+
+    public PepperController(
+            PepperService pepperService,
+            GoogleTokenVerifierService googleTokenVerifierService) {
         this.pepperService = pepperService;
+        this.googleTokenVerifierService = googleTokenVerifierService;
     }
 
     @PostMapping("/create")
@@ -50,6 +60,18 @@ public class PepperController {
     @GetMapping("/getAllValidated")
     public List<Pepper> getAllValidated() {
         return pepperService.getAllValidated();
+    }
+
+    @GetMapping("/getAllUnvalidated")
+    public List<Pepper> getAllUnvalidated(@RequestHeader("Authorization") String accessToken) {
+        JsonNode googleUserNode;
+        try {
+            googleUserNode = googleTokenVerifierService.tryVerifyToken(accessToken);
+        } catch (GeneralSecurityException | IOException | InterruptedException e) {
+            throw new RuntimeException("Unauthorized");
+        }
+
+        return pepperService.getAllUnvalidated(googleUserNode.get("email").asText());
     }
 
     @GetMapping("/getByUuid/{uuid}")
@@ -81,9 +103,8 @@ public class PepperController {
 
     @PutMapping("/validate-pepper/{uuid}")
     public Pepper validatePepper(
-        @RequestHeader("Authorization") String authorizationHeader,
-        @PathVariable String uuid
-    ) {
+            @RequestHeader("Authorization") String authorizationHeader,
+            @PathVariable String uuid) {
         if (!authorizationHeader.equals(appAdminSecret)) {
             throw new RuntimeException("Unauthorized");
         }
@@ -93,9 +114,8 @@ public class PepperController {
 
     @PutMapping("/unvalidate-pepper/{uuid}")
     public Pepper unvalidatePepper(
-        @RequestHeader("Authorization") String authorizationHeader,
-        @PathVariable String uuid
-    ) {
+            @RequestHeader("Authorization") String authorizationHeader,
+            @PathVariable String uuid) {
         if (!authorizationHeader.equals(appAdminSecret)) {
             throw new RuntimeException("Unauthorized");
         }

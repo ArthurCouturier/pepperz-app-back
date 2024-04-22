@@ -64,6 +64,7 @@ public class GoogleTokenVerifierService {
         googleUser.setGivenName(googleUserNode.get("given_name").asText());
         googleUser.setPicture(googleUserNode.get("picture").asText());
         googleUser.setAccessToken(accessToken);
+        googleUser.setShouldBeAdmin(false);
         return googleUser;
     }
 }

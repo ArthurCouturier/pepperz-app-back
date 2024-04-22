@@ -32,11 +32,6 @@ public class UserController {
         this.tokenVerifierService = tokenVerifierService;
     }
 
-    @GetMapping("/auth")
-    public String test() {
-        return "ok";
-    }
-
     @GetMapping("/auth/google")
     public GoogleUser getGoogleUser(@RequestHeader("Authorization") String authorizationHeader) throws Exception {
         String googleAccessToken = authorizationHeader.substring("Bearer ".length());
@@ -70,7 +65,7 @@ public class UserController {
         return userService.getAllGoogleUsers();
     }
 
-    @PostMapping("/auth/pass-user-admi-by-email")
+    @PostMapping("/auth/pass-user-admin-by-email")
     public User postMethodName(
             @RequestHeader("Authorization") String authorizationHeader,
             @RequestBody JsonNode emailNode) {
