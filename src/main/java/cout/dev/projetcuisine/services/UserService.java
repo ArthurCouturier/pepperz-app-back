@@ -1,9 +1,15 @@
 package cout.dev.projetcuisine.services;
 
+import java.io.IOException;
+import java.security.GeneralSecurityException;
 import java.util.List;
 import java.util.UUID;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
+
+import com.fasterxml.jackson.databind.JsonNode;
 
 import cout.dev.projetcuisine.models.GoogleUser;
 import cout.dev.projetcuisine.models.User;
@@ -17,13 +23,17 @@ public class UserService {
     private final UserRepository userRepository;
 
     private final GoogleUserRepository googleUserRepository;
+
+    private final GoogleTokenVerifierService googleTokenVerifierService;
     
     public UserService(
         UserRepository userRepository,
-        GoogleUserRepository googleUserRepository
+        GoogleUserRepository googleUserRepository,
+        GoogleTokenVerifierService googleTokenVerifierService
     ) {
         this.userRepository = userRepository;
         this.googleUserRepository = googleUserRepository;
+        this.googleTokenVerifierService = googleTokenVerifierService;
     }
 
     public User createUser(GoogleUser user) {
@@ -76,8 +86,25 @@ public class UserService {
         return userRepository.save(user);
     }
 
-    public Boolean isUserAdmin(String email) {
+    public Boolean isUserAdminByEmail(String email) {
         User user = userRepository.findByEmail(email);
         return user.getRole().equals(UserRoles.ADMIN);
+    }
+
+    public Boolean isUserAdminByGoogleAccessToken(String accessToken) {
+        JsonNode googleUserNode;
+        try {
+            googleUserNode = googleTokenVerifierService.tryVerifyToken(accessToken);
+        } catch (GeneralSecurityException | IOException | InterruptedException e) {
+            throw new RuntimeException("Unauthorized");
+        }
+
+        String email = googleUserNode.get("email").asText();
+
+        if (!(getUserByEmail(email).getRole() == UserRoles.ADMIN)) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Unauthorized");
+        }
+
+        return true;
     }
 }
