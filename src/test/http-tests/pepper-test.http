@@ -69,3 +69,16 @@ Content-Type: application/json
 Authorization: {{$dotenv APP_ADMIN_SECRET}}
 
 ###
+
+GET  http://127.0.0.1:8080/api/peppers/getAllRates
+Content-Type: application/json
+
+###
+
+POST  http://127.0.0.1:8080/api/peppers/rate/fd3b2013-abc3-4a75-b7b2-30a771ca98fa
+Content-Type: application/json
+email: arthur.couturier.2000@gmail.com
+
+5
+
+###

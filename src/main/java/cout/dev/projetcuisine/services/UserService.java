@@ -12,6 +12,7 @@ import org.springframework.web.server.ResponseStatusException;
 import com.fasterxml.jackson.databind.JsonNode;
 
 import cout.dev.projetcuisine.models.GoogleUser;
+import cout.dev.projetcuisine.models.PepperRate;
 import cout.dev.projetcuisine.models.User;
 import cout.dev.projetcuisine.repositories.GoogleUserRepository;
 import cout.dev.projetcuisine.repositories.UserRepository;
@@ -77,6 +78,10 @@ public class UserService {
         return googleUserRepository.findAll();
     }
 
+    public User getByGoogleAccessToken(String accessToken) {
+        return userRepository.findByGoogleToken(accessToken).get();
+    }
+
     public User passUserAdminByEmail(String email) {
         User user = userRepository.findByEmail(email);
         user.setRole(UserRoles.ADMIN);
@@ -106,5 +111,10 @@ public class UserService {
         }
 
         return true;
+    }
+
+    public User addRate(User user, PepperRate rate) {
+        user.getPepperRates().add(rate);
+        return userRepository.save(user);
     }
 }

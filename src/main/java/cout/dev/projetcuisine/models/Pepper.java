@@ -1,5 +1,7 @@
 package cout.dev.projetcuisine.models;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import cout.dev.projetcuisine.dtos.PepperDTO;
@@ -9,6 +11,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
@@ -45,6 +48,9 @@ public class Pepper {
     @Column(name = "validated_by_admin")
     private boolean validatedByAdmin = false;
 
+    @OneToMany(mappedBy = "pepper")
+    private List<PepperRate> pepperRates = new ArrayList<PepperRate>();
+
 
     public static Pepper fromDTO(PepperDTO pepperDTO) {
         Pepper pepper = new Pepper();
@@ -58,6 +64,7 @@ public class Pepper {
         pepper.setKgPrice(pepperDTO.getKgPrice());
         pepper.setSpecifications(pepperDTO.getSpecifications());
         pepper.setValidatedByAdmin(false);
+        pepper.setPepperRates(new ArrayList<PepperRate>());
         return pepper;
     }
 

@@ -9,6 +9,9 @@ import org.springframework.web.server.ResponseStatusException;
 
 import cout.dev.projetcuisine.dtos.PepperDTO;
 import cout.dev.projetcuisine.models.Pepper;
+import cout.dev.projetcuisine.models.PepperRate;
+import cout.dev.projetcuisine.models.User;
+import cout.dev.projetcuisine.repositories.PepperRateRepository;
 import cout.dev.projetcuisine.repositories.PepperRepository;
 import cout.dev.projetcuisine.utils.PepperSpecifications;
 
@@ -17,8 +20,18 @@ public class PepperService {
 
     private final PepperRepository pepperRepository;
 
-    public PepperService(PepperRepository pepperRepository) {
+    private final PepperRateRepository pepperRateRepository;
+
+    private final UserService userService;
+
+    public PepperService(
+        PepperRepository pepperRepository,
+        PepperRateRepository pepperRateRepository,
+        UserService userService
+    ) {
         this.pepperRepository = pepperRepository;
+        this.pepperRateRepository = pepperRateRepository;
+        this.userService = userService;
     }
 
     public Pepper create(Pepper pepper) {
@@ -52,6 +65,10 @@ public class PepperService {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid specification: " + spec);
         }
         return pepperRepository.findBySpecificationsContains(spec);
+    }
+
+    public List<PepperRate> getAllRates() {
+        return pepperRateRepository.findAll();
     }
 
     public void checkSpecifications(String specifications) {
@@ -91,6 +108,20 @@ public class PepperService {
 
         pepper.setValidatedByAdmin(validatedByAdmin);
         System.out.println("Validate pepper:" + pepper);
+        return pepperRepository.save(pepper);
+    }
+
+    public Pepper rate(Pepper pepper, User user, int rate) {
+        PepperRate pepperRate = new PepperRate();
+        pepperRate.setRate(rate);
+        pepperRate.setPepper(pepper);
+        pepperRate.setUser(user);
+
+        userService.addRate(user, pepperRate);
+        pepper.getPepperRates().add(pepperRate);
+        
+        pepperRateRepository.save(pepperRate);
+
         return pepperRepository.save(pepper);
     }
 }
