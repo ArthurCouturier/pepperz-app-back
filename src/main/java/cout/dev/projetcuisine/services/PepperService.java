@@ -111,8 +111,22 @@ public class PepperService {
         return pepperRepository.save(pepper);
     }
 
+    public void computeGlobalRate(Pepper pepper) {
+        List<PepperRate> pepperRates = pepper.getPepperRates();
+        float globalRate = 0;
+        for (PepperRate pepperRate : pepperRates) {
+            globalRate += pepperRate.getRate();
+        }
+        globalRate /= pepperRates.size();
+        pepper.setGlobalRate(globalRate);
+    }
+
     public Pepper rate(Pepper pepper, User user, int rate) {
+        PepperRate pepperPreviousRate = pepperRateRepository.findByPepperAndUser(pepper, user);
         PepperRate pepperRate = new PepperRate();
+        if (pepperPreviousRate != null) {
+            pepperRate.setUuid(pepperPreviousRate.getUuid());
+        }
         pepperRate.setRate(rate);
         pepperRate.setPepper(pepper);
         pepperRate.setUser(user);
@@ -122,6 +136,7 @@ public class PepperService {
         
         pepperRateRepository.save(pepperRate);
 
+        computeGlobalRate(pepper);
         return pepperRepository.save(pepper);
     }
 }

@@ -51,6 +51,9 @@ public class Pepper {
     @OneToMany(mappedBy = "pepper")
     private List<PepperRate> pepperRates = new ArrayList<PepperRate>();
 
+    @Column(name = "global_rate")
+    private float globalRate;
+
 
     public static Pepper fromDTO(PepperDTO pepperDTO) {
         Pepper pepper = new Pepper();

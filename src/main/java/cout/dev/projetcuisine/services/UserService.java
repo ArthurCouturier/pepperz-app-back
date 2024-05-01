@@ -78,8 +78,12 @@ public class UserService {
         return googleUserRepository.findAll();
     }
 
-    public User getByGoogleAccessToken(String accessToken) {
+    private User getByGoogleAccessToken(String accessToken) {
         return userRepository.findByGoogleToken(accessToken).get();
+    }
+
+    public User getByToken(String accessToken) {
+        return getByGoogleAccessToken(accessToken);
     }
 
     public User passUserAdminByEmail(String email) {
@@ -116,5 +120,9 @@ public class UserService {
     public User addRate(User user, PepperRate rate) {
         user.getPepperRates().add(rate);
         return userRepository.save(user);
+    }
+
+    public List<PepperRate> getRates(User user) {
+        return user.getPepperRates();
     }
 }

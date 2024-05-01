@@ -14,6 +14,9 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import cout.dev.projetcuisine.dtos.PepperDTO;
 import cout.dev.projetcuisine.dtos.PepperRateDTO;
 import cout.dev.projetcuisine.models.Pepper;
@@ -141,20 +144,34 @@ public class PepperController {
     @PostMapping("/rate/{uuid}")
     public Pepper postMethodName(
         @PathVariable String uuid,
-        @RequestHeader("email") String email, 
-        @RequestBody String rate
+        @RequestHeader("Authorization") String accessToken,
+        @RequestBody JsonNode data
     ) {
-        
-        // if (!userService.isUserAdminByGoogleAccessToken(accessToken)) {
-        //     throw new RuntimeException("Unauthorized");
-        // }
-        System.out.println("Rate pepper with email: " + email);
+        User user = userService.getByToken(accessToken);
 
-        User user = userService.getUserByEmail(email);
+        if (user == null) {
+            throw new RuntimeException("Unauthorized");
+        }
 
         Pepper pepper = pepperService.getByUuid(UUID.fromString(uuid));
-        
-        return pepperService.rate(pepper, user, Integer.parseInt(rate));
+
+        Pepper pepperRated =  pepperService.rate(pepper, user, data.get("rate").asInt());
+
+        System.out.println("Rated pepper " + uuid +  " with email: " + user.getEmail() + " and rate: " + data.get("rate").asInt() + ".");
+
+        return pepperRated;
     }
-    
+
+    @GetMapping("/getMyRates")
+    public List<PepperRateDTO> getMyRates(
+        @RequestHeader("Authorization") String accessToken
+    ) {
+        User user = userService.getByToken(accessToken);
+        if (user == null) {
+            throw new RuntimeException("Unauthorized");
+        }
+
+        return userService.getRates(user)
+            .stream().map(PepperRate::toDTO).toList();
+    }
 }

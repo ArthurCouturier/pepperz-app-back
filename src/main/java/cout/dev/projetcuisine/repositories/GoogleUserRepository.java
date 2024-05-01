@@ -13,4 +13,6 @@ public interface GoogleUserRepository extends JpaRepository<GoogleUser, String> 
     Optional<GoogleUser> findByEmail(String email);
 
     Optional<GoogleUser> findById(String id);
+
+    Optional<GoogleUser> findByAccessToken(String accessToken);
 }
