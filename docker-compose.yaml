@@ -1,0 +1,19 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    env_file:
+      - .env
+    volumes:
+      # Mount a volume to persist the H2 database data
+      - h2data:/app/datasource_data
+    entrypoint: ["java", "-jar", "app.jar"]
+
+volumes:
+  h2data:
+    driver: local
