@@ -1,6 +1,7 @@
 package cout.dev.projetcuisine.repositories;
 
 import cout.dev.projetcuisine.models.Pepper;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

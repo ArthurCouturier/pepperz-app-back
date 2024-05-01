@@ -15,6 +15,7 @@ RUN mvn dependency:go-offline
 
 # Copiez les sources du projet
 COPY src src
+COPY .env .env
 
 # Construisez l'application
 RUN mvn package -DskipTests
@@ -23,4 +24,5 @@ RUN mvn package -DskipTests
 FROM openjdk:17-slim
 WORKDIR /app
 COPY --from=builder /app/target/*.jar app.jar
+COPY .env /app/.env
 ENTRYPOINT ["java","-jar","app.jar"]

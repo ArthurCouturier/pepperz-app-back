@@ -1,53 +1,52 @@
 ###
 
-POST  http://127.0.0.1:8080/api/users/create
+GET http://127.0.0.1:8080/api/users/auth/google
 Content-Type: application/json
-
-{
-  "name" : "user1",
-  "email": "user1@gmail.com",
-  "password": "password1"
-}
+Authorization: Bearer ya29.a0Ad52N38N7N9d2O-4CyAmlTNQc-LAtmitDVvYXidEZf_KhreQF1kFwhpeiX_ygt3eEzpTU4UEpUTYNTuAkFQRjvdowE3D8qk7O78mubYxzOLNb3x_Laz2sovXmwGUNbIqxdJmlIFCXOiv-fa2RViNR1ql3twRdtjFnj4aCgYKAT0SARASFQHGX2MibLFAAQO2o9ZlIEw256ZovA0170
 
 ###
 
-POST  http://127.0.0.1:8080/api/users/create
+GET http://127.0.0.1:8080/api/users/google/getAll
 Content-Type: application/json
-
-{
-  "name" : "user2",
-  "email": "user2@gmail.com",
-  "password": "password2"
-}
-
-###
-
-POST  http://127.0.0.1:8080/api/users/login
-Content-Type: application/json
-
-{
-  "login" : "user1",
-    "password": "password1"
-}
-
-###
-
-POST  http://127.0.0.1:8080/api/users/login
-Content-Type: application/json
-
-{
-  "login" : "user2",
-    "password": "password2"
-}
+Authorization: {{$dotenv APP_ADMIN_SECRET}}
 
 ###
 
 GET  http://127.0.0.1:8080/api/users/getAll
 Content-Type: application/json
+Authorization: {{$dotenv APP_ADMIN_SECRET}}
 
 ###
 
-DELETE  http://127.0.0.1:8080/api/users/deleteByName/user1
+
+GET  https://api.pepperz.app/api/users/google/getAll
 Content-Type: application/json
+Authorization: {{$dotenv APP_ADMIN_SECRET}}
+
+###
+
+GET  https://api.pepperz.app/api/users/google/getAll
+Content-Type: application/json
+Authorization: {{$dotenv APP_ADMIN_SECRET}}
+
+###
+
+POST  https://api.pepperz.app/api/users/auth/pass-user-admin-by-email
+Content-Type: application/json
+Authorization: {{$dotenv APP_ADMIN_SECRET}}
+
+{
+    "email": "arthur.couturier.2000@gmail.com"
+}
+
+###
+
+POST  http://127.0.0.1:8080/api/users/auth/pass-user-admin-by-email
+Content-Type: application/json
+Authorization: {{$dotenv APP_ADMIN_SECRET}}
+
+{
+    "email": "arthur.couturier.2000@gmail.com"
+}
 
 ###
