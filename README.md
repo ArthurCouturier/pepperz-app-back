@@ -1,4 +1,9 @@
 Build and run the docker container with the following commands:
+run in prod:
+```Bash
+docker-compose up -d --build
+```
+old version:
 ```Bash
 docker build -t pepperz.app .
 docker run --env-file ./.env -p 8080:8080 pepperz.app
